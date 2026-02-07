@@ -32,6 +32,35 @@ DoublyLinkedList::~DoublyLinkedList() {
     tail = nullptr;
 };
 
+// isEmpty methid
+bool DoublyLinkedList::isEmpty() {
+    // We are chedking if the head is a nullptr
+    bool empty = (head == nullptr);
+    return empty;
+}
+
+void DoublyLinkedList::insertAtHead(int key){
+    DllNode* createNode = new DllNode(key);
+    // We need this just case if the node is the first node the head and tail will be the same node.
+    if(isEmpty()) {
+        head = createNode;
+        tail = createNode;
+    } else{
+        // We are puting the next address as the old head address
+        // then we are linking the prevous address on the left with createNode
+        // the next and precous are being linked in reference to the olad head node
+        createNode -> next = head;
+        head -> prev = createNode;
+        head  = createNode;
+    }
+};
+
+
+
+
+
+
+// 
 
 
 
