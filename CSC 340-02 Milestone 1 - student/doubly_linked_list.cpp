@@ -133,6 +133,133 @@ void DoublyLinkedList::remove(int key) {
     } 
 }
 
+void DoublyLinkedList::removeHeaderNode(){
+    //need this if the node list is empty; do notheing
+    if (isEmpty()){
+        return;
+    }
+
+    // need address for the old head node to delete for later
+    DllNode*  tempHead = head;
+
+    if(head == tail) {
+        head = nullptr;
+        tail = nullptr;
+    } else {
+        // we are taking the head pointer the the next node. then delete the old one
+        head = head -> next;
+        head -> prev = nullptr;
+    }
+
+    delete tempHead;
+}
+
+void DoublyLinkedList::removeTailNode() {
+
+    if (isEmpty()) {
+        return;
+    }
+
+    DllNode* tempTail = tail;
+
+    // same as the removeHeaderNode method but removing the tail node:
+    if(head == tail) {
+        head = nullptr;
+        tail = nullptr;
+    } else {
+        tail = tail -> prev;
+        tail -> next = nullptr;
+    }
+
+    delete tempTail;
+}
+
+void DoublyLinkedList::moveNodeToHead(int key) {
+
+    if (isEmpty()) {
+        return;
+    }
+
+    // if the key is already at the head node
+    if (head -> key == key) {
+        return;
+    }   
+
+    DllNode* current = head;
+
+    // looping through to find the current node
+    while (current != nullptr) {
+        if (current -> key == key) {
+
+            // --- if the node is at the tail --- //
+            if ( current == tail) {
+                tail = tail -> prev;
+                tail -> next = nullptr;
+            } else {
+                // we are linking both the left and right node together
+                DllNode* prevNode = current -> prev;
+                DllNode* nextNode = current -> next;
+                prevNode -> next = nextNode;
+                nextNode -> prev = prevNode;
+            }
+
+            // cahnging address for the new head node:
+            current -> next = head;
+            current -> prev = nullptr;
+            head -> prev = current;
+            head = current;
+            return;
+        }
+
+        current = current  -> next;
+    }
+}
+
+void DoublyLinkedList::moveNodeToTail(int key) {
+
+    if (isEmpty()) {
+        return;
+    }   
+
+    DllNode* current = head;
+
+    while (current != nullptr) {
+        if (current -> key == key) {
+
+            if (current == tail){
+                head = head -> next;
+                head -> prev = nullptr;
+            } else {
+                DllNode* prevNode = current -> prev;
+                DllNode* nextNode = current -> next;
+                prevNode -> next = nextNode;
+                nextNode -> prev = prevNode;
+            }
+
+            current -> prev = tail;
+            current -> next = nullptr;
+            tail -> next = current;
+            tail = current;
+            return;
+        }
+        current = current -> next;
+    }
+}
+
+void DoublyLinkedList::clear() {
+    DllNode* current = head;
+
+    // deleting the whole node list by looping from head
+    while (current != nullptr){
+        DllNode* nextNode = current -> next;
+        delete current;
+        current = nextNode;
+    }
+
+    head = nullptr;
+    tail = nullptr;
+}
+
 
 
 
