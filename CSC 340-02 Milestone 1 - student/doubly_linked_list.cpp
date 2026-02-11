@@ -70,21 +70,31 @@ void DoublyLinkedList::insertAtTail(int key) {
     }
 
 void DoublyLinkedList::printList() {
+    // Had to add for test
+    logToFileAndConsole("\nHere are the List contents:");
+
     DllNode* currentNode = head;
     while (currentNode != nullptr){
         // we are using the printNode() method then we are moving on to the next address. 
         currentNode -> printNode();
         currentNode = currentNode -> next;
     }
+
+    logToFileAndConsole("End of List");
 }
 
 // the only difference is that now we make the currentNode into prevouse address. 
 void DoublyLinkedList::reversePrintList() {
-DllNode* currentNode = tail;
-    while(currentNode != nullptr) {
-        currentNode -> printNode();
-        currentNode = currentNode -> prev;
-    }
+    // Had to add for test
+    logToFileAndConsole("\nHere are the List contents reversed:");
+
+    DllNode* currentNode = tail;
+        while(currentNode != nullptr) {
+            currentNode -> printNode();
+            currentNode = currentNode -> prev;
+        }
+
+    logToFileAndConsole("End of List");
 }
 
 void DoublyLinkedList::remove(int key) {
@@ -194,13 +204,17 @@ void DoublyLinkedList::moveNodeToHead(int key) {
             // --- if the node is at the tail --- //
             if ( current == tail) {
                 tail = tail -> prev;
-                tail -> next = nullptr;
+                if (tail != nullptr) {
+                    tail -> next = nullptr;
+                 }
             } else {
                 // we are linking both the left and right node together
                 DllNode* prevNode = current -> prev;
                 DllNode* nextNode = current -> next;
                 prevNode -> next = nextNode;
-                nextNode -> prev = prevNode;
+                if (nextNode != nullptr) {
+                    nextNode -> prev = prevNode;
+                }
             }
 
             // cahnging address for the new head node:
@@ -226,14 +240,20 @@ void DoublyLinkedList::moveNodeToTail(int key) {
     while (current != nullptr) {
         if (current -> key == key) {
 
-            if (current == tail){
+            if (current == head){
                 head = head -> next;
-                head -> prev = nullptr;
+                // this check is needed just in case the node is the only node in the list
+                if (head != nullptr) {
+                    head -> prev = nullptr;
+                }
             } else {
                 DllNode* prevNode = current -> prev;
                 DllNode* nextNode = current -> next;
                 prevNode -> next = nextNode;
+                // check is need just in case the node is the last node
+                if (nextNode != nullptr) {
                 nextNode -> prev = prevNode;
+                }
             }
 
             current -> prev = tail;
